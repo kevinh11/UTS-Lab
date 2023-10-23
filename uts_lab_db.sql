@@ -15,7 +15,9 @@ CREATE TABLE todo_items (
   FOREIGN KEY (user_id) REFERENCES USERS (user_id)
 );
 
+SELECT * FROM USERS;
 
+DELETE FROM todo_items WHERE 1=1;
 
 
 

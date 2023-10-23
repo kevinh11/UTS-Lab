@@ -1,36 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>To-Do-List</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <h1>To-Do-List</h1>
-        <form action="ToDoList.php" method="POST">
-            <input type="text" name="task" style="width: 300px; height: 30px;">
-            <input type="submit" value="simpen" style="background-color: blue; color: white; height: 30px;">
+<?php
+    include('components/header.php');
+
+?>
+<body>
+   <?php
+    include('components/navbar.php');
+   
+   ?>
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <h1 class="mt-4">To-Do List</h1>
+        <form action="ToDoList.php" method="POST" class="mt-3">
+            <div class="input-group mb-3 d-flex flex-row justify-content-center align-items-center">
+                <input type="text" name="task" class="form-control" style="width: 300px; height: 30px;">
+                <div class="input-group-append px-4">
+                    <input type="submit" value="simpen" class="btn btn-primary"">
+                </div>
+            </div>
         </form>
         
         <?php
-            $con = mysqli_connect("localhost", "root", "", "todo_list");
 
+            if (!isset($_COOKIE['loggedIn'])) {
+                header("Location:Login.php");
+            }
+
+            $con = mysqli_connect("localhost", "root", "", "todo_list");
             if (!$con) {
                 die("Connection failed: " . mysqli_connect_error());
             }
 
-            if (isset($_POST['task'])) {
-                $task = $_POST['task'];
-
-                $q1 = "INSERT INTO todo_items (task_name) VALUES ('$task')";
-                $query_insert = mysqli_query($con, $q1);
-
-                if (!$query_insert) {
-                    die("Insertion failed: " . mysqli_error($con));
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if (isset($_POST['task'])) {
+                    $task = $_POST['task'];
+        
+                    $q1 = "INSERT INTO todo_items (task_name,task_status) VALUES ('$task','not started')";
+                    $query_insert = mysqli_query($con, $q1);
+        
+                    if (!$query_insert) {
+                        die("Insertion failed: " . mysqli_error($con));
+                    }
+        
+                    header("Location: ToDoList.php");
+                    exit();
                 }
             }
 
+          
             $q2 = "SELECT * FROM todo_items ORDER BY 
                         CASE 
                             WHEN task_status = 'Completed' THEN 3 
@@ -42,14 +57,14 @@
             $query_display = mysqli_query($con, $q2);
             $query_count = mysqli_query($con, $q3);
 
-            echo "<table class='todolist'>";
+            echo "<table class='table table-bordered table-striped mt-3'>";
             echo "<tr>";
             echo "<th>No</th>";
             echo "<th>Task</th>";
             echo "<th>Done</th>";
             echo "<th>Delete</th>";
             echo "<th>Edit</th>";
-            echo "<th>progress</th>";
+            echo "<th>Progress</th>";
             echo "</tr>";
 
             while ($hasil = mysqli_fetch_array($query_display)) {
@@ -58,7 +73,7 @@
                 echo "<td>" . $hasil['task_name'] . "</td>"; 
                 echo "<td><a href='ToDoList.php?done=" . $hasil['task_id'] . "'>V</a></td>";
                 echo "<td><a href='ToDoList.php?delete=" . $hasil['task_id'] . "'>X</a></td>";
-                echo "<td><a href='edit.php?edit=" . $hasil['task_id'] . "'><input type='submit' value='Edit'> </a></td>";
+                echo "<td><a href='edit.php?edit=" . $hasil['task_id'] . "'><input class='btn btn-primary 'type='submit' value='Edit'> </a></td>";
                 echo "<td>" . $hasil['task_status'] . "</td>"; 
                 echo "</tr>";
             }
@@ -80,5 +95,10 @@
 
             mysqli_close($con);
         ?>
-    </body>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 </html>
