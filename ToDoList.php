@@ -24,6 +24,8 @@
                 header("Location:Login.php");
             }
 
+            $uid = $_COOKIE['userId'];
+
             $con = mysqli_connect("localhost", "root", "", "todo_list");
             if (!$con) {
                 die("Connection failed: " . mysqli_connect_error());
@@ -32,8 +34,8 @@
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (isset($_POST['task'])) {
                     $task = $_POST['task'];
-        
-                    $q1 = "INSERT INTO todo_items (task_name,task_status) VALUES ('$task','not started')";
+                    
+                    $q1 = "INSERT INTO todo_items (task_name,task_status,user_id) VALUES ('$task','not started',$uid)";
                     $query_insert = mysqli_query($con, $q1);
         
                     if (!$query_insert) {
@@ -46,14 +48,14 @@
             }
 
           
-            $q2 = "SELECT * FROM todo_items ORDER BY 
+            $q2 = "SELECT * FROM todo_items WHERE user_id = $uid ORDER BY 
                         CASE 
                             WHEN task_status = 'Completed' THEN 3 
                             WHEN task_status = 'In progress' THEN 2 
                             WHEN task_status = 'Waiting on' THEN 1 
                             ELSE 0 
                         END ASC, task_id DESC";
-            $q3 = "SELECT COUNT(*) as count FROM todo_items";
+            $q3 = "SELECT COUNT(*) as count FROM todo_items WHERE user_id = $uid";
             $query_display = mysqli_query($con, $q2);
             $query_count = mysqli_query($con, $q3);
 
