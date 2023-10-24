@@ -3,7 +3,7 @@
     include('components/navbar.php');
 
     if (!isset($_COOKIE['loggedIn'])) {
-        header("Location:Login.php");
+        header("Location:login.php");
     }
 
 ?>
