@@ -21,7 +21,7 @@
         <?php
 
             if (!isset($_COOKIE['loggedIn'])) {
-                header("Location:Login.php");
+                header("Location:login.php");
             }
 
             $uid = $_COOKIE['userId'];
