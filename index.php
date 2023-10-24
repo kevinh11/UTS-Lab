@@ -70,13 +70,21 @@
             echo "</tr>";
 
             while ($hasil = mysqli_fetch_array($query_display)) {
+                if ($hasil['task_status'] === 'Completed') {
+                    $rowClass = 'table-success';
+                } elseif ($hasil['task_status'] === 'In Progress') {
+                    $rowClass = 'table-warning';
+                } else {
+                    $rowClass = 'table-danger';
+                }
+
                 echo "<tr>";
                 echo "<td>" . $hasil['task_id'] . "</td>"; 
                 echo "<td>" . $hasil['task_name'] . "</td>"; 
                 echo "<td><a href='index.php?done=" . $hasil['task_id'] . "'>V</a></td>";
                 echo "<td><a href='index.php?delete=" . $hasil['task_id'] . "'>X</a></td>";
                 echo "<td><a href='edit.php?edit=" . $hasil['task_id'] . "'><input class='btn btn-primary 'type='submit' value='Edit'> </a></td>";
-                echo "<td>" . $hasil['task_status'] . "</td>"; 
+                echo "<td class=' . $rowClass . '>" . $hasil['task_status'] . "</td>"; 
                 echo "</tr>";
             }
 
