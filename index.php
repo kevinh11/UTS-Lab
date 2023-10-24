@@ -9,7 +9,7 @@
    ?>
     <div class="container d-flex flex-column justify-content-center align-items-center">
         <h1 class="mt-4">To-Do List</h1>
-        <form action="ToDoList.php" method="POST" class="mt-3">
+        <form action="index.php" method="POST" class="mt-3">
             <div class="input-group mb-3 d-flex flex-row justify-content-center align-items-center">
                 <input type="text" name="task" class="form-control" style="width: 300px; height: 30px;">
                 <div class="input-group-append px-4">
@@ -42,7 +42,7 @@
                         die("Insertion failed: " . mysqli_error($con));
                     }
         
-                    header("Location: ToDoList.php");
+                    header("Location: index.php");
                     exit();
                 }
             }
@@ -73,8 +73,8 @@
                 echo "<tr>";
                 echo "<td>" . $hasil['task_id'] . "</td>"; 
                 echo "<td>" . $hasil['task_name'] . "</td>"; 
-                echo "<td><a href='ToDoList.php?done=" . $hasil['task_id'] . "'>V</a></td>";
-                echo "<td><a href='ToDoList.php?delete=" . $hasil['task_id'] . "'>X</a></td>";
+                echo "<td><a href='index.php?done=" . $hasil['task_id'] . "'>V</a></td>";
+                echo "<td><a href='index.php?delete=" . $hasil['task_id'] . "'>X</a></td>";
                 echo "<td><a href='edit.php?edit=" . $hasil['task_id'] . "'><input class='btn btn-primary 'type='submit' value='Edit'> </a></td>";
                 echo "<td>" . $hasil['task_status'] . "</td>"; 
                 echo "</tr>";
