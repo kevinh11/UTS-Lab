@@ -72,7 +72,7 @@
             while ($hasil = mysqli_fetch_array($query_display)) {
                 if ($hasil['task_status'] === 'Completed') {
                     $rowClass = 'table-success';
-                } elseif ($hasil['task_status'] === 'In Progress') {
+                } elseif ($hasil['task_status'] === 'In progress') {
                     $rowClass = 'table-warning';
                 } else {
                     $rowClass = 'table-danger';
