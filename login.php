@@ -59,7 +59,7 @@
         setcookie('userId', $user_id, time() + (86400 * 7));
         setcookie('username', $user_info['name'], time() + (86400 * 7));
         setcookie('loggedIn', true, time() + (86400 * 7)); 
-        header('Location: ToDoList.php');
+        header('Location: index.php');
       } 
       
       else {

@@ -54,7 +54,7 @@
 
                 $sql = "UPDATE todo_items SET task_name ='$task', task_status ='$status' WHERE task_id='" . $data_lama['task_id'] . "'";
                 if (mysqli_query($con, $sql)) {
-                    header("Location: ToDoList.php");
+                    header("Location: index.php");
                     exit();
                 } else {
                     echo "Error updating record: " . mysqli_error($con);
